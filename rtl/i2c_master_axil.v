@@ -297,8 +297,6 @@ I/O pin.  This would prevent devices from stretching the clock period.
 
 */
 
-assign wr_interrupt= cmd_fifo_overflow_reg |write_fifo_overflow_reg |write_fifo_full|write_fifo_empty;
-assign rd_interrupt= read_fifo_full;
 reg s_axil_awready_reg = 1'b0, s_axil_awready_next;
 reg s_axil_wready_reg = 1'b0, s_axil_wready_next;
 reg s_axil_bvalid_reg = 1'b0, s_axil_bvalid_next;
@@ -739,5 +737,8 @@ i2c_master_inst (
     .prescale(prescale_reg),
     .stop_on_idle(1'b0)
 );
+//JVS Stuff
 never_awvalid_without_wvalid: assert property (@(posedge clk) disable iff(rst) s_axil_wvalid|->s_axil_awvalid);
+assign wr_interrupt= cmd_fifo_overflow_reg |write_fifo_overflow_reg |write_fifo_full|write_fifo_empty;
+assign rd_interrupt= read_fifo_full;
 endmodule
